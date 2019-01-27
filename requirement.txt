@@ -1,5 +1,9 @@
 discord.py
 
+discord
+
 asyncio
 
 colorsys
+
+youtube.dl
