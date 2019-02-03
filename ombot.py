@@ -4,6 +4,8 @@ import asyncio
 import platform
 import colorsys
 import random
+from discord.voice_client import VoiceClient
+import youtube_dl
 from discord.ext.commands.cooldowns import BucketType
 from discord import Game, Embed, Color, Status, ChannelType
 
@@ -11,21 +13,10 @@ from discord import Game, Embed, Color, Status, ChannelType
 bot = commands.Bot(command_prefix='%')
 bot.remove_command('help')
 
-async def status_task():
-    while True:
-        await bot.change_presence(game=discord.Game(name='for %help'))
-        await asyncio.sleep(5)
-        await bot.change_presence(game=discord.Game(name='with '+str(len(set(bot.get_all_members())))+' users'))
-        await asyncio.sleep(5)
-        await bot.change_presence(game=discord.Game(name='in '+str(len(bot.servers))+' servers'))
-        await asyncio.sleep(5)
-
-
 @bot.event
 async def on_ready( ) :
-	print('The bot is online :)')
-	print(bot.user.name)
-	print(bot.user.id)
+	await bot.change_presence(game=discord.Game(name='in '+str(len(bot.servers))+' servers With %help'))
+	print('The Bot Online')
 
 @bot.event
 async def on_message(message):
@@ -43,12 +34,34 @@ async def on_member_join(member):
     print("Sent message to " + member.name)
     channel = discord.utils.get(bot.get_all_channels(), server__name='CASINO [GTSG]', name='👐wellcome-left👋')
     r, g, b = tuple(int(x * 255) for x in colorsys.hsv_to_rgb(random.random(), 1, 1))
-    embed = discord.Embed(title=f'Welcome {member.name} to {member.server.name}', description='Do not forget to check <#474572305192845312> and never try to break any one of them', color = discord.Color((r << 16) + (g << 8) + b))
+    embed = discord.Embed(title=f'Welcome {member.name} to {member.server.name}', description='Do not forget to check Rules and never try to break any one of them', color = discord.Color((r << 16) + (g << 8) + b))
     embed.add_field(name='__Thanks for joining__', value='**Hope you will be active here.**', inline=True)
     embed.add_field(name='Your join position is', value=member.joined_at)
     embed.set_image(url = 'https://media.giphy.com/media/OkJat1YNdoD3W/giphy.gif')
     embed.set_thumbnail(url=member.avatar_url)
     await bot.send_message(channel, embed=embed)
+
+
+
+
+@bot.command(pass_context = True)
+async def uncle(ctx, *, msg = None):
+    if '@here' in msg or '@everyone' in msg:
+      return
+    if not msg: await bot.say("Please specify a user to wish")
+    await bot.say('Its You ' + msg + ' \nhttps://colinbendell.cloudinary.com/image/upload/c_crop,f_auto,g_auto,h_350,w_400/v1512090971/Wizard-Clap-by-Markus-Magnusson.gif')
+    return
+
+
+
+@bot.command(pass_context = True)
+@commands.has_permissions(administrator=True)
+async def say(ctx, *, msg = None):
+    await bot.delete_message(ctx.message)
+
+    if not msg: await bot.say("Please specify a message to send")
+    else: await bot.say(msg)
+    return
 
 @bot.command(pass_context=True, no_pm=True)
 async def avatar(ctx, member: discord.Member):
@@ -320,4 +333,4 @@ async def devbot(ctx):
 async def info():
 	await bot.say('`Server CASINO [GTSG]`                             *Made-by :OmGila#4069.                                                    Asist Owner:SNSW#8494.                                       Co-Owner:MeiMei#0003 and Megumin#7624*')                                             
 	
-bot.run('NTM2NDA4NjA0ODExNzIyNzUz.Dyh9XA.jE-lKkXjOKwt_F--RANtRoSz9vY')
+bot.run('NTM2NDA4NjA0ODExNzIyNzUz.DzBLYQ.jZsH_Fq6ITtldRyuItXMd_pkx3I')
